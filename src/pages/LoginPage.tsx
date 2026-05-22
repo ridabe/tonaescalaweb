@@ -1,8 +1,8 @@
 import type { Session } from '@supabase/supabase-js';
 import type { IScannerControls } from '@zxing/browser';
-import { CalendarCheck2, ChevronLeft, ChevronRight, KeyRound, Mail, QrCode, X } from 'lucide-react';
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, CalendarCheck2, KeyRound, Mail, QrCode, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Field } from '../components/Field';
 import { getGuestEvents, signIn, signInWithGoogle, signUp } from '../lib/api';
@@ -25,75 +25,6 @@ export function LoginPage({ session }: { session: Session | null }) {
   const [scannerError, setScannerError] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const scannerControls = useRef<IScannerControls | null>(null);
-
-  const slides = useMemo(
-    () => ([
-      {
-        src: '/img/tonaescala-banner-1600x900.png',
-        title: 'Organize seus eventos com clareza',
-        description: 'Centralize informacoes, equipe e horarios em um so lugar.',
-        fit: 'cover' as const,
-      },
-      {
-        src: '/img/telas%20sistema.png',
-        title: 'Tudo o que voce precisa, na tela certa',
-        description: 'Uma visao direta para planejar, acompanhar e ajustar a escala.',
-        fit: 'contain' as const,
-      },
-      {
-        src: '/img/tonaescala-banner.png',
-        title: 'Convites que chegam rapido',
-        description: 'Compartilhe por link ou QR Code e facilite o acesso ao evento.',
-        fit: 'cover' as const,
-      },
-      {
-        src: '/img/tonaescala-logo-horizontal.png',
-        title: 'Menos troca de mensagens, mais confirmacoes',
-        description: 'Deixe as respostas organizadas e tenha previsibilidade no dia.',
-        fit: 'contain' as const,
-      },
-      {
-        src: '/img/tonaescala-icon-1024.png',
-        title: 'Acompanhe quem confirmou em segundos',
-        description: 'Visualize o status da escala e reaja rapido a mudancas.',
-        fit: 'contain' as const,
-      },
-      {
-        src: '/img/tonaescala-icon-source.png',
-        title: 'Escalas organizadas para servir melhor',
-        description: 'Mais organizacao, menos imprevistos, mais foco no essencial.',
-        fit: 'contain' as const,
-      },
-    ]),
-    [],
-  );
-
-  const [slideIndex, setSlideIndex] = useState(0);
-  const carouselRef = useRef<HTMLDivElement | null>(null);
-  const carouselScrollLock = useRef(false);
-  const [carouselPaused, setCarouselPaused] = useState(false);
-  const reduceMotion = useMemo(() => {
-    if (!window.matchMedia) return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }, []);
-
-  useEffect(() => {
-    const container = carouselRef.current;
-    if (!container) return;
-    const target = container.querySelector<HTMLElement>(`[data-slide-index="${slideIndex}"]`);
-    if (!target) return;
-    target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  }, [slideIndex]);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-    const id = window.setInterval(() => {
-      if (carouselScrollLock.current) return;
-      if (carouselPaused) return;
-      setSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 6400);
-    return () => window.clearInterval(id);
-  }, [carouselPaused, reduceMotion, slides.length]);
 
   useEffect(() => {
     if (!scannerOpen) return undefined;
@@ -190,84 +121,11 @@ export function LoginPage({ session }: { session: Session | null }) {
     <div className="entry-screen">
       <section className="entry-panel">
         <header className="entry-header">
-          <div className="entry-brand-inline">
-            <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
-            <span>Escalas organizadas para pessoas que servem juntas.</span>
-          </div>
-          <Button variant="secondary" onClick={() => setAdminOpen(true)} disabled={scannerOpen}>
-            Área admin
+          <Link to="/" className="entry-back"><ArrowLeft size={17} /> Vitrine</Link>
+          <Button variant="ghost" onClick={() => setAdminOpen(true)} disabled={scannerOpen}>
+            Area admin
           </Button>
         </header>
-
-        <section
-          className="carousel"
-          aria-label="Apresentacao do ToNaEscala"
-          onPointerDown={() => {
-            carouselScrollLock.current = true;
-            window.setTimeout(() => {
-              carouselScrollLock.current = false;
-            }, 9000);
-          }}
-          onMouseEnter={() => setCarouselPaused(true)}
-          onMouseLeave={() => setCarouselPaused(false)}
-          onFocusCapture={() => setCarouselPaused(true)}
-          onBlurCapture={() => setCarouselPaused(false)}
-        >
-          <div className="carousel-track" ref={carouselRef}>
-            {slides.map((slide, index) => (
-              <article
-                className="carousel-slide"
-                key={slide.src}
-                data-slide-index={index}
-                aria-hidden={index === slideIndex ? 'false' : 'true'}
-              >
-                <div className="carousel-media">
-                  <img
-                    className={slide.fit === 'contain' ? 'carousel-image contain' : 'carousel-image cover'}
-                    src={slide.src}
-                    alt={slide.title}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="carousel-caption">
-                  <strong>{slide.title}</strong>
-                  <span>{slide.description}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="carousel-controls">
-            <button
-              className="icon-button carousel-nav"
-              type="button"
-              aria-label="Slide anterior"
-              onClick={() => setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length)}
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <div className="carousel-dots" role="tablist" aria-label="Selecionar slide">
-              {slides.map((_slide, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className={index === slideIndex ? 'carousel-dot active' : 'carousel-dot'}
-                  aria-label={`Ir para o slide ${index + 1}`}
-                  aria-selected={index === slideIndex}
-                  role="tab"
-                  onClick={() => setSlideIndex(index)}
-                />
-              ))}
-            </div>
-            <button
-              className="icon-button carousel-nav"
-              type="button"
-              aria-label="Proximo slide"
-              onClick={() => setSlideIndex((prev) => (prev + 1) % slides.length)}
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </section>
 
         {error ? <div className="alert alert-danger">{error}</div> : null}
         {!isSupabaseConfigured ? (
@@ -276,8 +134,20 @@ export function LoginPage({ session }: { session: Session | null }) {
           </div>
         ) : null}
 
-        <div className="entry-grid single">
-          <form className="card form-card" onSubmit={handleGuestSubmit}>
+        <div className="guest-entry-layout">
+          <section className="guest-entry-copy">
+            <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
+            <span className="landing-kicker"><Sparkles size={16} /> Acesso rapido</span>
+            <h1>Sua escala, sem baixar nada.</h1>
+            <p>Digite o codigo do evento ou leia o QR Code, informe seu email e veja tudo que foi preparado para voce.</p>
+            <div className="guest-entry-pills">
+              <span><QrCode size={17} /> QR Code</span>
+              <span><ShieldCheck size={17} /> Acesso seguro</span>
+              <span><Mail size={17} /> Email da escala</span>
+            </div>
+          </section>
+
+          <form className="card form-card guest-access-card" onSubmit={handleGuestSubmit}>
             <div className="card-title">
               <KeyRound size={22} />
               <div>
