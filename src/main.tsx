@@ -13,6 +13,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { EventDetailPage } from './pages/EventDetailPage';
 import { EventsPage } from './pages/EventsPage';
 import { GuestPage } from './pages/GuestPage';
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { NewEventPage } from './pages/NewEventPage';
 import { NotificationsPage } from './pages/NotificationsPage';
@@ -65,7 +66,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage session={session} />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/entrar" element={<LoginPage session={session} />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/guest" element={<GuestPage />} />
         <Route
@@ -77,7 +79,7 @@ function App() {
                 : org
                   ? <Navigate to="/app/eventos" replace />
                   : <SetupOrganizationPage onCreated={reloadOrgs} />
-              : <Navigate to="/" replace />
+              : <Navigate to="/entrar" replace />
           }
         />
         <Route
@@ -89,7 +91,7 @@ function App() {
                 : org
                   ? <AppLayout org={org} />
                   : <Navigate to="/setup" replace />
-              : <Navigate to="/" replace />
+              : <Navigate to="/entrar" replace />
           }
         >
           <Route index element={<Navigate to="/app/eventos" replace />} />

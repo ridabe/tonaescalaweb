@@ -48,7 +48,7 @@ export function EventDetailPage({ org }: { org: Organization }) {
 
   const inviteUrl = useMemo(() => {
     if (!event?.invite_code) return '';
-    return `${window.location.origin}/?code=${event.invite_code}`;
+    return `${window.location.origin}/entrar?code=${event.invite_code}`;
   }, [event?.invite_code]);
 
   async function ensureInvite() {

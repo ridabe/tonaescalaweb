@@ -23,7 +23,7 @@ export function GuestPage() {
 
   async function load(targetId?: string) {
     if (!inviteCode || !email) {
-      navigate('/');
+      navigate('/entrar');
       return;
     }
     const eventItems = await getGuestEvents(inviteCode, email);
@@ -61,7 +61,7 @@ export function GuestPage() {
   function leave() {
     localStorage.removeItem('tne_guest_invite_code');
     localStorage.removeItem('tne_guest_email');
-    navigate('/');
+    navigate('/entrar');
   }
 
   const eventInfo = assignments[0];
