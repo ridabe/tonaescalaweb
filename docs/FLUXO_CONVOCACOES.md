@@ -1,222 +1,92 @@
-# Fluxo de Convocacoes - ToNaEscala
+# Fluxo de Convocacoes - Web e App
 
-## 1. Objetivo
+## 1. Regra central
 
-Definir a nova regra de produto para escalas por convocacao. O ToNaEscala deixa de tratar o codigo do evento como uma entrada aberta e passa a usar o par `codigo do evento + email` para identificar quem foi convocado.
+A escala e montada pelo organizador antes do convidado responder.
 
-## 2. Principio central
+O convidado acessa sua convocacao com:
 
-O admin monta a escala antes do convidado responder.
+```text
+codigo do evento + email convocado
+```
 
-Cada pessoa convidada deve existir como uma convocacao vinculada a:
+O codigo localiza o evento. O email identifica a pessoa convocada dentro daquele evento.
 
-- evento;
-- equipe;
-- nome;
-- email;
-- funcao;
-- horario;
-- observacao, quando houver;
-- status de visualizacao;
-- status de resposta.
-
-O codigo do evento localiza o primeiro evento de acesso. O email localiza a convocacao daquela pessoa dentro do evento e passa a ser a ancora da sessao do convidado.
-
-## 3. Regras de produto
-
-- O admin cria o evento.
-- O admin cria as equipes do evento.
-- O admin adiciona os convocados da escala com nome, email, equipe, funcao, horario e observacoes.
-- O convidado acessa pelo codigo do evento e informa o email.
-- Se o email existir na escala daquele evento, o convidado acessa sua convocacao.
-- Depois de validado o par `codigo + email`, o convidado pode ver outros eventos ativos em que o mesmo email foi convocado.
-- Ao alternar entre eventos, o convidado so ve convocacoes vinculadas ao proprio email.
-- Se o email nao existir, o app bloqueia o acesso aos detalhes da escala.
-- Ao abrir a convocacao, o sistema marca como visualizada.
-- O convidado pode aceitar ou recusar.
-- Se recusar, deve informar justificativa obrigatoria.
-- O admin deve ver o status de cada convocado dentro do evento.
-- O admin deve receber notificacao quando houver aceite ou recusa.
-- O convidado pode ver outros convocados do evento ou da equipe, mas nao pode responder por eles.
-
-## 4. Status da convocacao
-
-Status de visualizacao:
-
-- `not_viewed`: convidado ainda nao abriu a convocacao.
-- `viewed`: convidado abriu a convocacao.
-
-Status de resposta:
-
-- `pending`: aguardando resposta.
-- `accepted`: convidado aceitou atuar.
-- `declined`: convidado recusou atuar.
-
-Campos de auditoria:
-
-- `viewed_at`: data/hora em que o convidado abriu a convocacao.
-- `responded_at`: data/hora da resposta.
-- `decline_reason`: justificativa obrigatoria quando a resposta for `declined`.
-
-## 5. Fluxo do admin
+## 2. Admin
 
 1. Faz login.
-2. Cria ou seleciona uma organizacao.
-3. Cria um evento.
-4. Cria as equipes necessarias.
-5. Adiciona convocados na escala:
+2. Seleciona ou carrega sua organizacao.
+3. Cria evento.
+4. Cria equipes, se necessario.
+5. Adiciona convocados com:
    - nome;
    - email;
    - telefone opcional;
    - equipe;
    - funcao;
-   - horario de chegada;
-   - horario final, se necessario;
-   - observacoes.
-6. Compartilha o codigo ou link do evento.
-7. Acompanha a escala por status.
-8. Recebe notificacoes de aceite e recusa.
-
-## 6. Fluxo do convidado
-
-1. Recebe codigo ou link do evento.
-2. Abre o app.
-3. Informa codigo do evento.
-4. Informa email.
-5. App procura uma convocacao ativa para aquele evento e email.
-6. Se encontrar, mostra:
-   - dados do evento;
-   - equipe;
-   - funcao;
    - horario;
-   - observacoes;
-   - outros convocados.
-7. Se o mesmo email tambem estiver convocado em outros eventos ativos, o app mostra um seletor para alternar entre eles.
-8. Sistema marca como visualizada a convocacao do evento aberto.
-9. Convidado escolhe:
-   - `Aceito participar`;
-   - `Nao poderei`.
-10. Se escolher `Nao poderei`, informa o motivo.
-11. Admin do evento respondido recebe a resposta.
+   - observacoes.
+6. Compartilha codigo/link/QR Code.
+7. Acompanha status.
 
-## 7. Visao do admin no evento
+## 3. Convidado
 
-A tela do evento deve permitir enxergar rapidamente:
+1. Recebe codigo ou link.
+2. Acessa web ou app.
+3. Informa email convocado.
+4. Sistema valida se existe convocacao daquele email no evento.
+5. Se existir, mostra dados da convocacao.
+6. Se nao existir, bloqueia acesso aos detalhes.
+7. Convidado aceita ou recusa.
+8. Recusa exige justificativa.
 
-- total de convocados;
-- quantos aceitaram;
-- quantos recusaram;
-- quantos visualizaram e ainda nao responderam;
-- quantos ainda nao visualizaram;
-- motivo das recusas;
-- agrupamento por equipe;
-- filtros por status.
+## 4. Status
 
-Exemplo:
+Visualizacao:
 
-```text
-Culto Domingo 19h
+- `not_viewed`;
+- `viewed`.
 
-Vocal
-Ana Silva
-Soprano
-Status: Aceitou
+Resposta:
 
-Joao Lima
-Violao
-Status: Recusou
-Motivo: Estarei trabalhando nesse horario.
+- `pending`;
+- `accepted`;
+- `declined`.
 
-Recepcao
-Carla Mendes
-Entrada principal
-Status: Visualizou, aguardando resposta
-```
+Campos:
 
-## 8. Visao do convidado
+- `viewed_at`;
+- `responded_at`;
+- `decline_reason`.
 
-O convidado deve saber exatamente para o que foi chamado.
+## 5. Dados visiveis ao convidado
 
-Informacoes principais:
+Pode ver:
 
-- nome do evento;
-- data e local;
-- equipe;
-- funcao;
-- horario de chegada;
-- horario de termino, se houver;
-- observacoes do admin;
-- lista dos demais convocados visiveis.
+- dados do evento;
+- sua equipe e funcao;
+- horarios;
+- observacoes;
+- lista basica dos demais convocados.
 
-Dados de outros convocados:
+Nao pode ver:
 
-- mostrar nome, equipe, funcao e status geral;
-- nao mostrar telefone;
-- nao mostrar email;
-- nao permitir resposta por outra pessoa.
+- telefone de outros convidados;
+- email de outros convidados;
+- dados de eventos onde nao esta convocado.
 
-## 9. Notificacoes
+## 6. Historico por email
 
-Notificacoes obrigatorias para o admin:
+Depois de validar um codigo + email valido, o convidado pode alternar entre eventos ativos em que o mesmo email esta convocado.
 
-- convidado aceitou convocacao;
-- convidado recusou convocacao, com motivo.
+## 7. Notificacoes
 
-Notificacoes opcionais:
+Obrigatorio:
 
-- convidado visualizou convocacao.
+- registrar aceite;
+- registrar recusa com motivo;
+- gerar notificacao administrativa para o organizador.
 
-Recomendacao para o MVP:
+Opcional:
 
-- registrar visualizacao no app;
-- enviar push apenas para aceite e recusa, evitando excesso de notificacoes.
-
-## 10. Historico por email
-
-O email passa a ser a ancora de identidade do convidado.
-
-Ao acessar com um codigo valido e o email convocado, a pessoa consegue ver:
-
-- eventos futuros para os quais foi convocada;
-- status de cada convocacao;
-- funcoes que precisa executar em cada evento ativo.
-
-Eventos passados e historico completo continuam como evolucao futura.
-
-## 11. Impacto no modelo atual
-
-O fluxo atual tem:
-
-- evento;
-- equipes;
-- participantes;
-- presencas;
-- escalas.
-
-O novo fluxo precisa adicionar ou adaptar o conceito de `convocacao`, que representa a escala planejada pelo admin antes da resposta do convidado.
-
-Nome tecnico sugerido:
-
-```text
-event_assignments
-```
-
-Essa tabela sera a fonte principal para:
-
-- escala do admin;
-- acesso do convidado;
-- resposta de aceite/recusa;
-- historico por email.
-
-## 12. Fora do escopo da Fase 1
-
-Esta fase nao implementa codigo nem banco. Ela apenas define o fluxo.
-
-As proximas fases devem tratar:
-
-- migration do Supabase;
-- RPCs de acesso por codigo + email;
-- mudancas nas telas do admin;
-- mudancas nas telas do convidado;
-- notificacoes push para o admin;
-- historico por email.
+- notificacao por visualizacao.

@@ -1,31 +1,29 @@
-# ToNaEscala - Índice de Documentação
+# ToNaEscala Web - Documentacao
 
-Este diretório reúne a documentação de produto, técnica e execução do ToNaEscala.
+Esta pasta documenta exclusivamente o modulo web do ToNaEscala.
 
-## Documentos existentes
+O modulo web usa a mesma base Supabase do app Android. Por isso, a especificacao de banco permanece compartilhada e foi mantida nesta pasta.
 
-- `PRD_ToNaEscala_COMPLETO.pdf`: visão de produto, público-alvo, MVP, diferenciais e estratégia.
-- `ToNaEscala_SPEC_COMPLETO.pdf`: especificação técnica geral, arquitetura, stack, módulos e roadmap técnico.
-- `ToNaEscala_DATABASE_SPEC.pdf`: especificação inicial do banco de dados, entidades, índices e regras.
+## Documentos principais
 
-## Documentos adicionados para continuidade
+- `PRD_WEB.md`: produto, publico, escopo e criterios de sucesso da versao web.
+- `SPEC_WEB.md`: arquitetura, stack, rotas, modulos e integracoes do frontend web.
+- `UX_WEB.md`: fluxos de organizador e convidado adaptados para navegador.
+- `DESIGN_SYSTEM_WEB.md`: diretrizes visuais e responsivas para a web.
+- `TEST_PLAN_WEB.md`: roteiro de validacao funcional antes de deploy.
 
-- `API_SPEC.md`: contrato de API para uso via Supabase client, RPCs e Edge Functions.
-- `RLS_SECURITY_SPEC.md`: regras de segurança, isolamento multi-tenant, policies e proteção para entrada sem cadastro.
-- `UX_FLOW.md`: jornadas principais de organizador e participante.
-- `WIREFRAMES_MVP.md`: wireframes textuais das telas essenciais do MVP.
-- `DESIGN_SYSTEM.md`: fundações visuais, componentes, estados e diretrizes mobile.
-- `IDENTIDADE_VISUAL.md`: identidade visual escolhida, paleta, tipografia, tokens e constantes do app.
-- `ROADMAP_EXECUTIVO.md`: fases de entrega, critérios de aceite e riscos.
-- `TESTES_MANUAIS_BETA.md`: roteiro de validacao manual do MVP antes do beta externo.
-- `CLIENTE_AUDIOS_2026-05-20_TRANSCRICAO.md`: resumo legivel das sugestoes do cliente enviadas por audio.
-- `PLANO_FEATURES_CLIENTE_AUDIO_2026-05-20.md`: analise dos audios do cliente e plano de features para repertorio, apoio musical, personalizacao e marketplace futuro.
+## Documentos compartilhados com o app
 
-## Decisões-base do projeto
+- `ToNaEscala_DATABASE_SPEC.pdf`: especificacao da base de dados compartilhada.
+- `API_SPEC.md`: contratos Supabase consumidos pela web e pelo app.
+- `RLS_SECURITY_SPEC.md`: regras de seguranca, RLS e isolamento multi-tenant.
+- `FLUXO_CONVOCACOES.md`: regra de negocio de convocacao por codigo do evento + email.
 
-- O produto nasce mobile-first, inicialmente Android.
-- A administração acontece dentro do app, sem painel web no MVP.
-- Organizadores usam autenticação por email/senha ou Google.
-- Participantes podem entrar em eventos sem criar conta obrigatória.
-- O backend principal é Supabase com PostgreSQL, Auth, Realtime e Edge Functions.
-- Toda tabela sensível deve respeitar isolamento por organização e Row Level Security.
+## Decisoes-base
+
+- A web nao substitui o app Android; ela atende usuarios que nao querem ou nao podem instalar o app.
+- O acesso do convidado deve funcionar sem cadastro, usando `invite_code + email`.
+- O organizador usa Supabase Auth com email/senha ou Google.
+- A web usa somente chave publica/publishable do Supabase.
+- Nenhuma chave `service_role` deve existir no frontend, no Vercel ou no bundle.
+- A base de dados, RLS, RPCs e tabelas sao compartilhadas com o app.
