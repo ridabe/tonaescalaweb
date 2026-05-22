@@ -110,3 +110,51 @@ export type AdminNotification = {
   read: boolean;
   created_at: string;
 };
+
+export type Song = {
+  id: string;
+  org_id: string | null;
+  title: string;
+  artist: string | null;
+  default_key: string | null;
+  male_key: string | null;
+  female_key: string | null;
+  lyrics: string | null;
+  chords: string | null;
+  links: string[];
+  notes: string | null;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type OrgContact = {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  default_role: string | null;
+  created_at: string;
+};
+
+export type EventInsight = {
+  event: Event;
+  total: number;
+  accepted: number;
+  declined: number;
+  pending: number;
+  uniquePeople: number;
+  responseRate: number;
+};
+
+export type MonthlyInsights = {
+  monthStart: string;
+  monthEnd: string;
+  eventsCreated: number;
+  totalScaled: number;
+  uniquePeople: number;
+  accepted: number;
+  declined: number;
+  pending: number;
+  responseRate: number;
+  events: EventInsight[];
+};

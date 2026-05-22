@@ -1,4 +1,4 @@
-import { Bell, CalendarDays, CalendarPlus, LogOut, UserRound } from 'lucide-react';
+import { Bell, CalendarDays, CalendarPlus, LogOut, Wrench, UserRound } from 'lucide-react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { Organization } from '../lib/types';
@@ -19,6 +19,7 @@ export function AppLayout({ org }: { org: Organization | null }) {
         <nav>
           <NavLink to="/app/agenda"><CalendarDays size={20} />Agenda</NavLink>
           <NavLink to="/app/eventos"><CalendarPlus size={20} />Eventos</NavLink>
+          <NavLink to="/app/ferramentas"><Wrench size={20} />Ferramentas</NavLink>
           <NavLink to="/app/notificacoes"><Bell size={20} />Notificacoes</NavLink>
           <NavLink to="/app/perfil"><UserRound size={20} />Perfil</NavLink>
         </nav>

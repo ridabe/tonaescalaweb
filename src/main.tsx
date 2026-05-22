@@ -7,6 +7,8 @@ import { fetchOrganizations } from './lib/api';
 import { supabase } from './lib/supabase';
 import type { Organization } from './lib/types';
 import { AgendaPage } from './pages/AgendaPage';
+import { ContactsPage } from './pages/ContactsPage';
+import { DashboardPage } from './pages/DashboardPage';
 import { EventDetailPage } from './pages/EventDetailPage';
 import { EventsPage } from './pages/EventsPage';
 import { GuestPage } from './pages/GuestPage';
@@ -15,6 +17,8 @@ import { NewEventPage } from './pages/NewEventPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SetupOrganizationPage } from './pages/SetupOrganizationPage';
+import { SongsPage } from './pages/SongsPage';
+import { ToolsPage } from './pages/ToolsPage';
 import './styles.css';
 
 function App() {
@@ -91,6 +95,10 @@ function App() {
           <Route path="eventos" element={<EventsPage org={org} />} />
           <Route path="eventos/novo" element={<NewEventPage org={org} />} />
           <Route path="eventos/:id" element={<EventDetailPage org={org} />} />
+          <Route path="ferramentas" element={<ToolsPage />} />
+          <Route path="ferramentas/repertorio" element={<SongsPage org={org} />} />
+          <Route path="ferramentas/voluntarios" element={<ContactsPage org={org} />} />
+          <Route path="ferramentas/dashboard" element={<DashboardPage org={org} />} />
           <Route path="notificacoes" element={<NotificationsPage />} />
           <Route path="perfil" element={<ProfilePage org={org} />} />
         </Route>
