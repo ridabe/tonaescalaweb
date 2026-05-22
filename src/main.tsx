@@ -21,13 +21,20 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [orgs, setOrgs] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
+  const [orgLoading, setOrgLoading] = useState(false);
 
   async function reloadOrgs() {
     if (!session) {
       setOrgs([]);
+      setOrgLoading(false);
       return;
     }
-    setOrgs(await fetchOrganizations());
+    setOrgLoading(true);
+    try {
+      setOrgs(await fetchOrganizations());
+    } finally {
+      setOrgLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -48,6 +55,7 @@ function App() {
   const org = useMemo(() => orgs[0] ?? null, [orgs]);
 
   if (loading) return <div className="splash">Carregando ToNaEscala...</div>;
+  const orgFallback = <div className="splash">Carregando sua organizacao...</div>;
 
   return (
     <BrowserRouter>
@@ -56,11 +64,27 @@ function App() {
         <Route path="/guest" element={<GuestPage />} />
         <Route
           path="/setup"
-          element={session ? <SetupOrganizationPage onCreated={reloadOrgs} /> : <Navigate to="/" replace />}
+          element={
+            session
+              ? orgLoading
+                ? orgFallback
+                : org
+                  ? <Navigate to="/app/eventos" replace />
+                  : <SetupOrganizationPage onCreated={reloadOrgs} />
+              : <Navigate to="/" replace />
+          }
         />
         <Route
           path="/app"
-          element={session ? (org ? <AppLayout org={org} /> : <Navigate to="/setup" replace />) : <Navigate to="/" replace />}
+          element={
+            session
+              ? orgLoading
+                ? orgFallback
+                : org
+                  ? <AppLayout org={org} />
+                  : <Navigate to="/setup" replace />
+              : <Navigate to="/" replace />
+          }
         >
           <Route index element={<Navigate to="/app/eventos" replace />} />
           <Route path="agenda" element={<AgendaPage org={org} />} />
