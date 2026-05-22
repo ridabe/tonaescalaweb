@@ -1,4 +1,4 @@
-import { Copy, Plus, QrCode, Share2, UserPlus } from 'lucide-react';
+import { Copy, Mail, Plus, QrCode, Send, Share2, UserPlus } from 'lucide-react';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useParams } from 'react-router-dom';
@@ -7,6 +7,12 @@ import { Button } from '../components/Button';
 import { Field, SelectField, Textarea } from '../components/Field';
 import { StatusSummary } from '../components/StatusSummary';
 import { createAssignment, createTeam, fetchAssignments, fetchEvent, fetchTeams, generateInvite } from '../lib/api';
+import {
+  createEmailCampaign,
+  getEmailCampaigns,
+  triggerEmailCampaign,
+  type EmailCampaign,
+} from '../lib/emailCampaigns';
 import { dateLong, time, toIsoFromLocal } from '../lib/format';
 import type { Event, EventAssignment, Organization, Team } from '../lib/types';
 
@@ -15,19 +21,25 @@ export function EventDetailPage({ org }: { org: Organization }) {
   const [event, setEvent] = useState<Event | null>(null);
   const [assignments, setAssignments] = useState<EventAssignment[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
+  const [emailCampaigns, setEmailCampaigns] = useState<EmailCampaign[]>([]);
   const [error, setError] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
   const [showInvite, setShowInvite] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailSending, setEmailSending] = useState(false);
 
   async function load() {
     if (!id) return;
-    const [eventData, assignmentData, teamData] = await Promise.all([
+    const [eventData, assignmentData, teamData, campaignData] = await Promise.all([
       fetchEvent(id),
       fetchAssignments(id),
       fetchTeams(org.id),
+      getEmailCampaigns(id).catch(() => [] as EmailCampaign[]),
     ]);
     setEvent(eventData);
     setAssignments(assignmentData);
     setTeams(teamData);
+    setEmailCampaigns(campaignData);
   }
 
   useEffect(() => {
@@ -48,6 +60,28 @@ export function EventDetailPage({ org }: { org: Organization }) {
     setShowInvite(true);
   }
 
+  async function sendEmails() {
+    if (!event || emailSending) return;
+    setEmailSending(true);
+    setError('');
+    setEmailMessage('');
+    try {
+      const inviteCode = event.invite_code || await generateInvite(event.id);
+      if (!event.invite_code) setEvent({ ...event, invite_code: inviteCode });
+
+      const campaignId = await createEmailCampaign(event.id, `Escala - ${event.title}`);
+      const result = await triggerEmailCampaign(event.id, campaignId);
+      const updated = await getEmailCampaigns(event.id).catch(() => emailCampaigns);
+      setEmailCampaigns(updated);
+      setShowEmailModal(false);
+      setEmailMessage(`${result.sent} email${result.sent === 1 ? '' : 's'} enviado${result.sent === 1 ? '' : 's'}${result.failed > 0 ? `, ${result.failed} falha${result.failed === 1 ? '' : 's'}` : ''}.`);
+    } catch (err) {
+      setError(emailErrorMessage(err));
+    } finally {
+      setEmailSending(false);
+    }
+  }
+
   if (error) return <div className="page"><div className="alert alert-danger">{error}</div></div>;
   if (!event) return <div className="page"><div className="card">Carregando evento...</div></div>;
 
@@ -60,9 +94,15 @@ export function EventDetailPage({ org }: { org: Organization }) {
           <p>{dateLong(event.start_date)} · {time(event.start_date)}{event.end_date ? ` ate ${time(event.end_date)}` : ''}</p>
           {event.location ? <p>{event.location}</p> : null}
         </div>
-        <Button variant="accent" icon={<Share2 size={18} />} onClick={ensureInvite}>Compartilhar convite</Button>
+        <div className="action-row">
+          <Button variant="secondary" icon={<Mail size={18} />} onClick={() => setShowEmailModal(true)}>
+            Enviar emails
+          </Button>
+          <Button variant="accent" icon={<Share2 size={18} />} onClick={ensureInvite}>Compartilhar convite</Button>
+        </div>
       </header>
 
+      {emailMessage ? <div className="alert alert-success">{emailMessage}</div> : null}
       <StatusSummary assignments={assignments} />
 
       {showInvite ? (
@@ -84,6 +124,20 @@ export function EventDetailPage({ org }: { org: Organization }) {
               Copiar link
             </Button>
           </div>
+        </section>
+      ) : null}
+
+      {emailCampaigns.length > 0 ? (
+        <section className="card email-campaign-card">
+          <div>
+            <span className="eyebrow">Ultimo envio por email</span>
+            <strong>
+              {emailCampaigns[0].sent_count} enviado{emailCampaigns[0].sent_count === 1 ? '' : 's'}
+              {emailCampaigns[0].failed_count > 0 ? `, ${emailCampaigns[0].failed_count} falha${emailCampaigns[0].failed_count === 1 ? '' : 's'}` : ''}
+            </strong>
+            <small>{formatDateTime(emailCampaigns[0].created_at)} - {campaignStatusLabel(emailCampaigns[0].status)}</small>
+          </div>
+          <Mail size={22} />
         </section>
       ) : null}
 
@@ -111,8 +165,62 @@ export function EventDetailPage({ org }: { org: Organization }) {
 
         <AssignmentForm event={event} org={org} teams={teams} onSaved={load} />
       </div>
+
+      {showEmailModal ? (
+        <div className="modal-backdrop">
+          <section className="card modal-sheet">
+            <div className="card-title">
+              <Send size={22} />
+              <div>
+                <h2>Enviar escala por email</h2>
+                <span>Dispare o acesso para todos com email cadastrado.</span>
+              </div>
+            </div>
+            <div className="email-summary">
+              <div><span>Escalados</span><strong>{assignments.length}</strong></div>
+              <div><span>Com email</span><strong>{assignments.filter((item) => item.invitee_email).length}</strong></div>
+              {emailCampaigns.length > 0 ? (
+                <div><span>Ultimo envio</span><strong>{formatDateTime(emailCampaigns[0].created_at)}</strong></div>
+              ) : null}
+            </div>
+            <p className="muted">Cada escalado recebera um email com os dados da propria escala e o codigo de acesso ao evento.</p>
+            <div className="action-row">
+              <Button type="button" variant="secondary" onClick={() => setShowEmailModal(false)} disabled={emailSending}>Cancelar</Button>
+              <Button type="button" icon={<Send size={18} />} onClick={sendEmails} disabled={emailSending || assignments.filter((item) => item.invitee_email).length === 0}>
+                {emailSending ? 'Enviando...' : 'Enviar'}
+              </Button>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </div>
   );
+}
+
+function emailErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : '';
+  if (message === 'NO_RECIPIENTS') return 'Nenhum escalado com email valido encontrado.';
+  if (message === 'NOT_AUTHORIZED') return 'Sem permissao para enviar neste evento.';
+  if (message.includes('Campaign already sent')) return 'Este envio ja foi processado ou esta em andamento.';
+  return message || 'Nao foi possivel enviar os emails.';
+}
+
+function campaignStatusLabel(status: EmailCampaign['status']) {
+  if (status === 'sent') return 'enviado';
+  if (status === 'sending') return 'enviando';
+  if (status === 'partial_failed') return 'parcial';
+  if (status === 'failed') return 'falhou';
+  return 'rascunho';
+}
+
+function formatDateTime(value: string) {
+  return new Date(value).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }
 
 function AssignmentForm({
