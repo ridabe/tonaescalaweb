@@ -1,7 +1,7 @@
 import type { Session } from '@supabase/supabase-js';
 import type { IScannerControls } from '@zxing/browser';
-import { CalendarCheck2, KeyRound, Mail, QrCode, X } from 'lucide-react';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { CalendarCheck2, ChevronLeft, ChevronRight, KeyRound, Mail, QrCode, X } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Field } from '../components/Field';
@@ -11,18 +11,89 @@ import { isSupabaseConfigured } from '../lib/supabase';
 export function LoginPage({ session }: { session: Session | null }) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [inviteCode, setInviteCode] = useState(params.get('code') ?? '');
   const [guestEmail, setGuestEmail] = useState('');
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [adminMode, setAdminMode] = useState<'login' | 'signup'>('login');
+  const [adminOpen, setAdminOpen] = useState(false);
   const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
+  const [busyGuest, setBusyGuest] = useState(false);
+  const [busyAdmin, setBusyAdmin] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [scannerMessage, setScannerMessage] = useState('');
   const [scannerError, setScannerError] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const scannerControls = useRef<IScannerControls | null>(null);
+
+  const slides = useMemo(
+    () => ([
+      {
+        src: '/img/tonaescala-banner-1600x900.png',
+        title: 'Organize eventos e escalas',
+        description: 'Crie eventos, equipes e convites em poucos cliques.',
+        fit: 'cover' as const,
+      },
+      {
+        src: '/img/telas%20sistema.png',
+        title: 'Visual pensado para o dia a dia',
+        description: 'Experiencia mobile-first e eficiente no computador.',
+        fit: 'contain' as const,
+      },
+      {
+        src: '/img/tonaescala-banner.png',
+        title: 'Convite por link e QR Code',
+        description: 'Compartilhe o acesso do evento e evite atrito.',
+        fit: 'cover' as const,
+      },
+      {
+        src: '/img/tonaescala-logo-horizontal.png',
+        title: 'Convidado entra sem instalar app',
+        description: 'Acesso rapido usando codigo do evento + email cadastrado.',
+        fit: 'contain' as const,
+      },
+      {
+        src: '/img/tonaescala-icon-1024.png',
+        title: 'Respostas com rastreabilidade',
+        description: 'Aceite ou recusa com justificativa quando necessario.',
+        fit: 'contain' as const,
+      },
+      {
+        src: '/img/tonaescala-icon-source.png',
+        title: 'Seguranca por organizacao (multi-tenant)',
+        description: 'Permissoes e regras validam acesso no Supabase.',
+        fit: 'contain' as const,
+      },
+    ]),
+    [],
+  );
+
+  const [slideIndex, setSlideIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const carouselScrollLock = useRef(false);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const reduceMotion = useMemo(() => {
+    if (!window.matchMedia) return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (!container) return;
+    const target = container.querySelector<HTMLElement>(`[data-slide-index="${slideIndex}"]`);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, [slideIndex]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = window.setInterval(() => {
+      if (carouselScrollLock.current) return;
+      if (carouselPaused) return;
+      setSlideIndex((prev) => (prev + 1) % slides.length);
+    }, 6400);
+    return () => window.clearInterval(id);
+  }, [carouselPaused, reduceMotion, slides.length]);
 
   useEffect(() => {
     if (!scannerOpen) return undefined;
@@ -83,22 +154,22 @@ export function LoginPage({ session }: { session: Session | null }) {
 
   async function handleOrganizerSubmit(event: FormEvent) {
     event.preventDefault();
-    setBusy(true);
+    setBusyAdmin(true);
     setError('');
     try {
-      if (mode === 'login') await signIn(email.trim(), password);
-      else await signUp(email.trim(), password);
+      if (adminMode === 'login') await signIn(adminEmail.trim(), adminPassword);
+      else await signUp(adminEmail.trim(), adminPassword);
       navigate('/app/eventos');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Nao foi possivel entrar.');
     } finally {
-      setBusy(false);
+      setBusyAdmin(false);
     }
   }
 
   async function handleGuestSubmit(event: FormEvent) {
     event.preventDefault();
-    setBusy(true);
+    setBusyGuest(true);
     setError('');
     try {
       const code = inviteCode.trim().toUpperCase();
@@ -111,17 +182,92 @@ export function LoginPage({ session }: { session: Session | null }) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Confira o codigo e email informados.');
     } finally {
-      setBusy(false);
+      setBusyGuest(false);
     }
   }
 
   return (
     <div className="entry-screen">
       <section className="entry-panel">
-        <div className="entry-brand">
-          <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
-          <p>Escalas organizadas para pessoas que servem juntas.</p>
-        </div>
+        <header className="entry-header">
+          <div className="entry-brand-inline">
+            <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
+            <span>Escalas organizadas para pessoas que servem juntas.</span>
+          </div>
+          <Button variant="secondary" onClick={() => setAdminOpen(true)} disabled={scannerOpen}>
+            Área admin
+          </Button>
+        </header>
+
+        <section
+          className="carousel"
+          aria-label="Apresentacao do ToNaEscala"
+          onPointerDown={() => {
+            carouselScrollLock.current = true;
+            window.setTimeout(() => {
+              carouselScrollLock.current = false;
+            }, 9000);
+          }}
+          onMouseEnter={() => setCarouselPaused(true)}
+          onMouseLeave={() => setCarouselPaused(false)}
+          onFocusCapture={() => setCarouselPaused(true)}
+          onBlurCapture={() => setCarouselPaused(false)}
+        >
+          <div className="carousel-track" ref={carouselRef}>
+            {slides.map((slide, index) => (
+              <article
+                className="carousel-slide"
+                key={slide.src}
+                data-slide-index={index}
+                aria-hidden={index === slideIndex ? 'false' : 'true'}
+              >
+                <div className="carousel-media">
+                  <img
+                    className={slide.fit === 'contain' ? 'carousel-image contain' : 'carousel-image cover'}
+                    src={slide.src}
+                    alt={slide.title}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="carousel-caption">
+                  <strong>{slide.title}</strong>
+                  <span>{slide.description}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="carousel-controls">
+            <button
+              className="icon-button carousel-nav"
+              type="button"
+              aria-label="Slide anterior"
+              onClick={() => setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length)}
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <div className="carousel-dots" role="tablist" aria-label="Selecionar slide">
+              {slides.map((_slide, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={index === slideIndex ? 'carousel-dot active' : 'carousel-dot'}
+                  aria-label={`Ir para o slide ${index + 1}`}
+                  aria-selected={index === slideIndex}
+                  role="tab"
+                  onClick={() => setSlideIndex(index)}
+                />
+              ))}
+            </div>
+            <button
+              className="icon-button carousel-nav"
+              type="button"
+              aria-label="Proximo slide"
+              onClick={() => setSlideIndex((prev) => (prev + 1) % slides.length)}
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </section>
 
         {error ? <div className="alert alert-danger">{error}</div> : null}
         {!isSupabaseConfigured ? (
@@ -130,32 +276,13 @@ export function LoginPage({ session }: { session: Session | null }) {
           </div>
         ) : null}
 
-        <div className="entry-grid">
-          <form className="card form-card" onSubmit={handleOrganizerSubmit}>
-            <div className="card-title">
-              <CalendarCheck2 size={22} />
-              <div>
-                <h1>Organizador</h1>
-                <span>Crie eventos, equipes e escalas.</span>
-              </div>
-            </div>
-            <Field label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <Field label="Senha" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <Button disabled={busy} icon={<Mail size={18} />}>{mode === 'login' ? 'Entrar' : 'Criar conta'}</Button>
-            <Button type="button" variant="secondary" onClick={() => signInWithGoogle()} disabled={busy}>
-              Entrar com Google
-            </Button>
-            <button className="text-button" type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
-              {mode === 'login' ? 'Criar uma conta' : 'Ja tenho conta'}
-            </button>
-          </form>
-
+        <div className="entry-grid single">
           <form className="card form-card" onSubmit={handleGuestSubmit}>
             <div className="card-title">
               <KeyRound size={22} />
               <div>
-                <h1>Convidado</h1>
-                <span>Acesse pelo codigo e email cadastrado na escala.</span>
+                <h1>Acessar escala</h1>
+                <span>Entre como convidado pelo codigo do evento e seu email.</span>
               </div>
             </div>
             <Field
@@ -177,7 +304,7 @@ export function LoginPage({ session }: { session: Session | null }) {
               required
               hint="Use o mesmo email informado pelo organizador."
             />
-            <Button disabled={busy} variant="accent">Ver minha escala</Button>
+            <Button disabled={busyGuest} variant="accent">Ver minha escala</Button>
           </form>
         </div>
       </section>
@@ -200,6 +327,41 @@ export function LoginPage({ session }: { session: Session | null }) {
             </div>
             {scannerError ? <div className="alert alert-danger">{scannerError}</div> : <p className="muted">{scannerMessage}</p>}
             <Button type="button" variant="secondary" onClick={() => setScannerOpen(false)}>Digitar codigo</Button>
+          </section>
+        </div>
+      ) : null}
+
+      {adminOpen ? (
+        <div className="modal-backdrop">
+          <section className="card modal-sheet admin-sheet" aria-label="Área admin">
+            <div className="section-head">
+              <div className="card-title">
+                <CalendarCheck2 size={22} />
+                <div>
+                  <h2>Área admin</h2>
+                  <span>Organizador: crie eventos, equipes e escalas.</span>
+                </div>
+              </div>
+              <button className="icon-button" type="button" onClick={() => setAdminOpen(false)} aria-label="Fechar área admin">
+                <X size={20} />
+              </button>
+            </div>
+            <form className="form-card" onSubmit={handleOrganizerSubmit}>
+              <Field label="Email" type="email" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} required />
+              <Field label="Senha" type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} required />
+              <Button disabled={busyAdmin} icon={<Mail size={18} />}>{adminMode === 'login' ? 'Entrar' : 'Criar conta'}</Button>
+              <Button type="button" variant="secondary" onClick={() => signInWithGoogle()} disabled={busyAdmin}>
+                Entrar com Google
+              </Button>
+              <button
+                className="text-button"
+                type="button"
+                onClick={() => setAdminMode(adminMode === 'login' ? 'signup' : 'login')}
+                disabled={busyAdmin}
+              >
+                {adminMode === 'login' ? 'Criar uma conta' : 'Ja tenho conta'}
+              </button>
+            </form>
           </section>
         </div>
       ) : null}
