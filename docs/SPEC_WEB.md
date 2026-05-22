@@ -45,6 +45,7 @@ Regras:
 | Rota | Uso |
 |---|---|
 | `/` | Login do organizador e entrada do convidado. |
+| `/auth/callback` | Conclusao do OAuth Google. |
 | `/guest` | Area do convidado apos validar codigo + email. |
 
 ### Protegidas
@@ -69,6 +70,20 @@ O organizador usa Supabase Auth:
 
 - email/senha;
 - Google OAuth.
+
+Para Google OAuth na web:
+
+- `redirectTo` deve apontar para `/auth/callback`.
+- A URL final precisa estar liberada em Supabase Auth > URL Configuration.
+- O dominio do site precisa estar em Google Cloud OAuth Client > Authorized JavaScript origins.
+
+URLs recomendadas:
+
+```text
+https://SEU-DOMINIO.vercel.app/auth/callback
+https://SEU-DOMINIO.com.br/auth/callback
+http://localhost:5173/auth/callback
+```
 
 Apos login:
 

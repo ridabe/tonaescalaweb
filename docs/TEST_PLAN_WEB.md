@@ -27,6 +27,7 @@ Casos:
 
 - Login com usuario existente do app.
 - Login com Google.
+- Google deve voltar para `/auth/callback` e depois ir para `/app/eventos`.
 - Usuario com organizacao existente deve ir para eventos.
 - Usuario sem organizacao deve ir para criacao.
 

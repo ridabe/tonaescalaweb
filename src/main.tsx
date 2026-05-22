@@ -7,6 +7,7 @@ import { fetchOrganizations } from './lib/api';
 import { supabase } from './lib/supabase';
 import type { Organization } from './lib/types';
 import { AgendaPage } from './pages/AgendaPage';
+import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { ContactsPage } from './pages/ContactsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { EventDetailPage } from './pages/EventDetailPage';
@@ -65,6 +66,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage session={session} />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/guest" element={<GuestPage />} />
         <Route
           path="/setup"

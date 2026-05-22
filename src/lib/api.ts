@@ -33,9 +33,10 @@ export async function signUp(email: string, password: string) {
 
 export async function signInWithGoogle() {
   assertConfigured();
+  const redirectTo = `${window.location.origin}/auth/callback`;
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.origin },
+    options: { redirectTo },
   });
   if (error) throw error;
 }
