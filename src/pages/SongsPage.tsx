@@ -1,7 +1,8 @@
-import { Music, Plus, Search } from 'lucide-react';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { Music, Music2, Plus, Search, X } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../components/Button';
 import { Field, Textarea } from '../components/Field';
+import { buildCifrasClubUrl, fetchLyrics, searchMusic, type MusicSearchResult } from '../lib/cifrasclub';
 import { createSong, fetchSongs } from '../lib/api';
 import type { Organization, Song } from '../lib/types';
 
@@ -79,6 +80,60 @@ function SongForm({ org, onSaved }: { org: Organization; onSaved: () => void }) 
   const [linksText, setLinksText] = useState('');
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<MusicSearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [importingId, setImportingId] = useState('');
+  const searchTimeout = useRef<number | null>(null);
+
+  function handleSearchChange(value: string) {
+    setSearchQuery(value);
+    if (searchTimeout.current) window.clearTimeout(searchTimeout.current);
+    if (!value.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    searchTimeout.current = window.setTimeout(async () => {
+      setSearching(true);
+      setError('');
+      try {
+        setSearchResults(await searchMusic(value));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Nao foi possivel buscar musicas.');
+        setSearchResults([]);
+      } finally {
+        setSearching(false);
+      }
+    }, 500);
+  }
+
+  async function importResult(result: MusicSearchResult) {
+    setImportingId(result.id);
+    setError('');
+    try {
+      const importedLyrics = await fetchLyrics(result.artist, result.title);
+      const cifrasUrl = buildCifrasClubUrl(result.artist, result.title);
+      const currentLinks = linksText.split('\n').map((item) => item.trim()).filter(Boolean);
+      const nextLinks = currentLinks.some((item) => item.includes('cifraclub.com.br'))
+        ? currentLinks
+        : [cifrasUrl, ...currentLinks];
+
+      setTitle(result.title);
+      setArtist(result.artist);
+      if (importedLyrics) setLyrics(importedLyrics);
+      setLinksText(nextLinks.join('\n'));
+      setSearchOpen(false);
+      setSearchQuery('');
+      setSearchResults([]);
+
+      if (!importedLyrics) {
+        setError('Musica importada, mas a letra nao foi encontrada automaticamente. O link do Cifras Club foi adicionado.');
+      }
+    } finally {
+      setImportingId('');
+    }
+  }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -108,6 +163,53 @@ function SongForm({ org, onSaved }: { org: Organization; onSaved: () => void }) 
   return (
     <form className="card form-stack section-card" onSubmit={submit}>
       {error ? <div className="alert alert-danger">{error}</div> : null}
+      <div className="song-search-panel">
+        <div>
+          <strong>Buscar musica automaticamente</strong>
+          <span>Busca titulo/artista e tenta importar letra e link do Cifras Club.</span>
+        </div>
+        <Button type="button" variant="secondary" icon={<Music2 size={18} />} onClick={() => setSearchOpen((value) => !value)}>
+          Buscar musica
+        </Button>
+      </div>
+      {searchOpen ? (
+        <div className="music-search-box">
+          <div className="toolbar-card">
+            <Search size={18} />
+            <input
+              value={searchQuery}
+              onChange={(event) => handleSearchChange(event.target.value)}
+              placeholder="Digite o nome da musica ou artista"
+              autoFocus
+            />
+            <button type="button" className="icon-button" onClick={() => setSearchOpen(false)} aria-label="Fechar busca">
+              <X size={18} />
+            </button>
+          </div>
+          {searching ? <p className="muted">Buscando musicas...</p> : null}
+          <div className="search-results">
+            {!searching && searchQuery.trim() && searchResults.length === 0 ? (
+              <p className="muted">Nenhum resultado encontrado.</p>
+            ) : null}
+            {searchResults.map((result) => (
+              <button
+                type="button"
+                className="music-result"
+                key={result.id}
+                onClick={() => importResult(result)}
+                disabled={Boolean(importingId)}
+              >
+                {result.artworkUrl ? <img src={result.artworkUrl} alt="" /> : <span className="resource-icon"><Music size={18} /></span>}
+                <span>
+                  <strong>{result.title}</strong>
+                  <small>{result.artist}{result.album ? ` · ${result.album}` : ''}</small>
+                </span>
+                <em>{importingId === result.id ? 'Importando...' : 'Usar'}</em>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       <div className="two-cols">
         <Field label="Titulo" value={title} onChange={(event) => setTitle(event.target.value)} required />
         <Field label="Artista / autor" value={artist} onChange={(event) => setArtist(event.target.value)} />
