@@ -1,6 +1,6 @@
-# ToNaEscala Web - Documentacao
+# Minha Escala Web - Documentacao
 
-Esta pasta documenta exclusivamente o modulo web do ToNaEscala.
+Esta pasta documenta exclusivamente o modulo web do Minha Escala.
 
 O modulo web usa a mesma base Supabase do app Android. Por isso, a especificacao de banco permanece compartilhada e foi mantida nesta pasta.
 
@@ -14,7 +14,7 @@ O modulo web usa a mesma base Supabase do app Android. Por isso, a especificacao
 
 ## Documentos compartilhados com o app
 
-- `ToNaEscala_DATABASE_SPEC.pdf`: especificacao da base de dados compartilhada.
+- `MINHA_ESCALA_DATABASE_SPEC.pdf`: especificacao da base de dados compartilhada.
 - `API_SPEC.md`: contratos Supabase consumidos pela web e pelo app.
 - `RLS_SECURITY_SPEC.md`: regras de seguranca, RLS e isolamento multi-tenant.
 - `FLUXO_ESCALAS.md`: regra de negocio de escala por codigo do evento + email.

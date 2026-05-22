@@ -1,4 +1,4 @@
-# API SPEC - ToNaEscala Web
+# API SPEC - Minha Escala Web
 
 ## 1. Objetivo
 

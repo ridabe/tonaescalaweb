@@ -80,8 +80,8 @@ export function LandingPage() {
   return (
     <div className="landing-page">
       <header className="landing-nav">
-        <Link to="/" className="landing-logo" aria-label="ToNaEscala">
-          <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
+        <Link to="/" className="landing-logo" aria-label="Minha Escala">
+          <img src="/img/minhaescala-logo-horizontal.png" alt="Minha Escala" />
         </Link>
         <nav>
           <a href="#manual">Manual</a>
@@ -97,7 +97,7 @@ export function LandingPage() {
             <span className="landing-kicker"><Sparkles size={16} /> Escalas sem confusao</span>
             <h1>Organize eventos, equipes e respostas em um fluxo leve de verdade.</h1>
             <p>
-              O ToNaEscala junta agenda, escala, repertorio, QR Code e acompanhamento em uma experiencia simples para quem organiza e para quem participa.
+              O Minha Escala junta agenda, escala, repertorio, QR Code e acompanhamento em uma experiencia simples para quem organiza e para quem participa.
             </p>
             <div className="landing-actions">
               <Link to="/entrar" className="landing-primary">
@@ -113,8 +113,8 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="landing-hero-visual" aria-label="Previa visual do ToNaEscala">
-            <img src="/img/telas sistema.png" alt="Telas do aplicativo ToNaEscala" />
+          <div className="landing-hero-visual" aria-label="Previa visual do Minha Escala">
+            <img src="/img/telas sistema.png" alt="Telas do aplicativo Minha Escala" />
             <div className="floating-flow-card floating-flow-card-one">
               <CheckCircle2 size={18} />
               <span>12 respostas recebidas</span>
@@ -156,7 +156,7 @@ export function LandingPage() {
             <div className="browser-top"><span /><span /><span /></div>
             <div className="browser-content">
               <div className="demo-sidebar">
-                <strong>ToNaEscala</strong>
+                <strong>Minha Escala</strong>
                 <span>Eventos</span>
                 <span>Escala</span>
                 <span>Repertorio</span>
@@ -198,7 +198,7 @@ export function LandingPage() {
           <div className="landing-section-head">
             <span className="landing-kicker">Ferramentas</span>
             <h2>Tudo que ajuda a escala sair redonda</h2>
-            <p>Do cadastro das pessoas ao repertorio, o ToNaEscala foi pensado para funcionar como central de preparacao do evento.</p>
+            <p>Do cadastro das pessoas ao repertorio, o Minha Escala foi pensado para funcionar como central de preparacao do evento.</p>
           </div>
           <div className="landing-tools-grid">
             {toolCards.map((tool) => (
@@ -230,7 +230,7 @@ export function LandingPage() {
         </section>
 
         <section className="landing-final">
-          <img src="/img/tonaescala-icon-1024.png" alt="Icone ToNaEscala" />
+          <img src="/img/minhaescala-icon-1024.png" alt="Icone Minha Escala" />
           <div>
             <span className="landing-kicker">Agora no web</span>
             <h2>Entre pelo navegador hoje. Baixe o app em breve.</h2>

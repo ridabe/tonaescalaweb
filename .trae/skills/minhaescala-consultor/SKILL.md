@@ -1,9 +1,9 @@
 ---
-name: "tonaescala-consultor"
-description: "Consulta e sintetiza arquitetura, pastas, módulos, regras de negócio e design do ToNaEscala Web. Invoque ao analisar o sistema, planejar features ou validar fluxos/UX."
+name: "minhaescala-consultor"
+description: "Consulta e sintetiza arquitetura, pastas, módulos, regras de negócio e design do Minha Escala Web. Invoque ao analisar o sistema, planejar features ou validar fluxos/UX."
 ---
 
-# ToNaEscala Consultor (Contexto do Sistema)
+# Minha Escala Consultor (Contexto do Sistema)
 
 ## Objetivo
 

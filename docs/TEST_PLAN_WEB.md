@@ -1,4 +1,4 @@
-# Plano de Testes - ToNaEscala Web
+# Plano de Testes - Minha Escala Web
 
 ## 1. Build
 

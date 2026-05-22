@@ -1,4 +1,4 @@
-# UX - ToNaEscala Web
+# UX - Minha Escala Web
 
 ## 1. Principios
 

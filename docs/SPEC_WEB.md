@@ -1,4 +1,4 @@
-# SPEC - ToNaEscala Web
+# SPEC - Minha Escala Web
 
 ## 1. Stack
 

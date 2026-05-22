@@ -21,7 +21,7 @@ import type { Organization } from '../lib/types';
 const currentPlan = {
   name: 'Free',
   status: 'Ativo',
-  description: 'Plano inicial para validar o uso do ToNaEscala com sua equipe.',
+  description: 'Plano inicial para validar o uso do Minha Escala com sua equipe.',
   features: [
     'Criacao de eventos habilitada',
     'Escalas por codigo + email',
@@ -96,7 +96,7 @@ export function ProfilePage({ org }: { org: Organization }) {
             <div className="org-profile-icon"><Building2 size={26} /></div>
             <div>
               <h2>{org.name}</h2>
-              <p>{org.description || 'Organizacao ativa no ToNaEscala.'}</p>
+              <p>{org.description || 'Organizacao ativa no Minha Escala.'}</p>
             </div>
           </div>
           <div className="profile-stats">

@@ -1,8 +1,8 @@
-# PRD - ToNaEscala Web
+# PRD - Minha Escala Web
 
 ## 1. Visao
 
-O ToNaEscala Web e a versao acessivel por navegador do ToNaEscala. Ela permite que organizadores gerenciem eventos, escalas, repertorio e escalados pelo computador ou celular, e que convidados respondam escalas sem instalar o app Android.
+O Minha Escala Web e a versao acessivel por navegador do Minha Escala. Ela permite que organizadores gerenciem eventos, escalas, repertorio e escalados pelo computador ou celular, e que convidados respondam escalas sem instalar o app Android.
 
 ## 2. Problema
 

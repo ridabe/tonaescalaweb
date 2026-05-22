@@ -1,6 +1,6 @@
-# ToNaEscala Web
+# Minha Escala Web
 
-Versao web do ToNaEscala, adaptada do app Android/Expo para acesso pelo navegador.
+Versao web do Minha Escala, adaptada do app Android/Expo para acesso pelo navegador.
 
 ## Stack
 

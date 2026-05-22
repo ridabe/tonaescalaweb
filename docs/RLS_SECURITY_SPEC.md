@@ -1,4 +1,4 @@
-# RLS SECURITY SPEC - ToNaEscala Web
+# RLS SECURITY SPEC - Minha Escala Web
 
 ## 1. Objetivo
 

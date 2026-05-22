@@ -60,7 +60,7 @@ function App() {
 
   const org = useMemo(() => orgs[0] ?? null, [orgs]);
 
-  if (loading) return <div className="splash">Carregando ToNaEscala...</div>;
+  if (loading) return <div className="splash">Carregando Minha Escala...</div>;
   const orgFallback = <div className="splash">Carregando sua organizacao...</div>;
 
   return (

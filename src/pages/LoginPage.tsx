@@ -136,7 +136,7 @@ export function LoginPage({ session }: { session: Session | null }) {
 
         <div className="guest-entry-layout">
           <section className="guest-entry-copy">
-            <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" />
+            <img src="/img/minhaescala-logo-horizontal.png" alt="Minha Escala" />
             <span className="landing-kicker"><Sparkles size={16} /> Acesso rapido</span>
             <h1>Sua escala, sem baixar nada.</h1>
             <p>Digite o codigo do evento ou leia o QR Code, informe seu email e veja tudo que foi preparado para voce.</p>

@@ -14,7 +14,7 @@ export function AppLayout({ org }: { org: Organization | null }) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <img src="/img/tonaescala-logo-horizontal.png" alt="ToNaEscala" className="brand-logo" />
+        <img src="/img/minhaescala-logo-horizontal.png" alt="Minha Escala" className="brand-logo" />
         <div className="org-pill">{org?.name ?? 'Organizacao'}</div>
         <nav>
           <NavLink to="/app/agenda"><CalendarDays size={20} />Agenda</NavLink>

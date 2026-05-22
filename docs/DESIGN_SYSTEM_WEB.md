@@ -1,8 +1,8 @@
-# Design System - ToNaEscala Web
+# Design System - Minha Escala Web
 
 ## 1. Direcao
 
-A interface web deve preservar a identidade acolhedora e organizada do ToNaEscala, adaptada para navegador.
+A interface web deve preservar a identidade acolhedora e organizada do Minha Escala, adaptada para navegador.
 
 Palavras-chave:
 
