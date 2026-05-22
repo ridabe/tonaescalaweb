@@ -17,7 +17,7 @@ O modulo web usa a mesma base Supabase do app Android. Por isso, a especificacao
 - `ToNaEscala_DATABASE_SPEC.pdf`: especificacao da base de dados compartilhada.
 - `API_SPEC.md`: contratos Supabase consumidos pela web e pelo app.
 - `RLS_SECURITY_SPEC.md`: regras de seguranca, RLS e isolamento multi-tenant.
-- `FLUXO_CONVOCACOES.md`: regra de negocio de convocacao por codigo do evento + email.
+- `FLUXO_ESCALAS.md`: regra de negocio de escala por codigo do evento + email.
 
 ## Decisoes-base
 

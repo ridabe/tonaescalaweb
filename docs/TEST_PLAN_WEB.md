@@ -45,11 +45,11 @@ Casos:
 - Gerar/copiar codigo e link.
 - Ver QR Code.
 
-## 5. Convocados
+## 5. Escalados
 
 Casos:
 
-- Adicionar convocado com nome e email.
+- Adicionar escalado com nome e email.
 - Adicionar equipe nova no formulario.
 - Ver status inicial pendente.
 - Validar resumo de aceitos/recusas/vistos/nao vistos.
@@ -58,9 +58,9 @@ Casos:
 
 Casos:
 
-- Entrar com codigo + email convocado.
-- Bloquear codigo valido com email nao convocado.
-- Aceitar convocacao.
+- Entrar com codigo + email cadastrado na escala.
+- Bloquear codigo valido com email fora da escala.
+- Aceitar escala.
 - Recusar exigindo justificativa.
 - Confirmar que status muda no detalhe do evento do organizador.
 
@@ -75,17 +75,17 @@ Casos:
 - Selecionar resultado.
 - Validar preenchimento de titulo, artista, link do Cifras Club e letra quando disponivel.
 
-### Voluntarios
+### Escalados
 
 - Listar contatos existentes.
 - Buscar por nome/email/telefone/funcao.
-- Adicionar voluntario.
+- Adicionar escalado.
 - Confirmar persistencia no Supabase.
 
 ### Dashboard
 
 - Ver indicadores do mes.
-- Validar eventos sem convocados.
+- Validar eventos sem escalados.
 - Validar eventos com pendentes, aceitos e recusas.
 
 ## 8. Responsividade

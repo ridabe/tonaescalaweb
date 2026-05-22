@@ -55,10 +55,10 @@ Regras:
 | `/app/agenda` | Agenda consolidada da organizacao. |
 | `/app/eventos` | Listagem de eventos. |
 | `/app/eventos/novo` | Criacao de evento. |
-| `/app/eventos/:id` | Detalhe, convite e convocados do evento. |
+| `/app/eventos/:id` | Detalhe, convite e escalados do evento. |
 | `/app/ferramentas` | Hub de ferramentas. |
 | `/app/ferramentas/repertorio` | Biblioteca musical. |
-| `/app/ferramentas/voluntarios` | Agenda de voluntarios/contatos. |
+| `/app/ferramentas/escalados` | Agenda de escalados/contatos. |
 | `/app/ferramentas/dashboard` | Indicadores mensais. |
 | `/app/notificacoes` | Notificacoes administrativas. |
 | `/app/perfil` | Dados basicos da organizacao. |
@@ -89,10 +89,10 @@ Funcoes:
 - criar evento;
 - gerar convite via RPC;
 - abrir detalhe do evento;
-- listar convocados;
-- adicionar convocacao.
+- listar escalados;
+- adicionar escala.
 
-### Convocacoes
+### Escalas
 
 Fonte principal:
 
@@ -121,7 +121,7 @@ Esses dados apenas identificam o fluxo do convidado no cliente. A autorizacao re
 Inclui:
 
 - Repertorio.
-- Voluntarios.
+- Escalados.
 - Dashboard.
 
 Exclui:
@@ -140,7 +140,7 @@ Integracoes externas:
 - lyrics.ovh: tentativa de importacao de letra.
 - Cifras Club: link montado por slug de artista/titulo.
 
-### Voluntarios
+### Escalados
 
 Tabela/RPC:
 
@@ -158,7 +158,7 @@ Calcula indicadores do mes atual a partir de:
 Indicadores:
 
 - eventos no mes;
-- total de convocados;
+- total de escalados;
 - aceites;
 - recusas;
 - pendentes;
@@ -188,6 +188,6 @@ npm run lint
 ## 9. Regras de compatibilidade com app
 
 - Eventos criados na web devem aparecer no app.
-- Convocados criados na web devem seguir o mesmo fluxo de resposta do app.
+- Escalados criados na web devem seguir o mesmo fluxo de resposta do app.
 - Repertorio e contatos usam as mesmas tabelas do app.
 - Mudancas de schema devem ser feitas no projeto compartilhado de banco, nao apenas no frontend web.

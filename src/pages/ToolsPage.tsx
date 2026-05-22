@@ -11,9 +11,9 @@ const tools = [
   },
   {
     icon: BookUser,
-    label: 'Voluntarios',
+    label: 'Escalados',
     description: 'Pessoas salvas para escalar rapidamente.',
-    href: '/app/ferramentas/voluntarios',
+    href: '/app/ferramentas/escalados',
     tone: 'accent',
   },
   {

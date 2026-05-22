@@ -28,7 +28,7 @@ export function SetupOrganizationPage({ onCreated }: { onCreated: () => Promise<
       <form className="card setup-card" onSubmit={submit}>
         <Building2 size={42} />
         <h1>Crie sua organizacao</h1>
-        <p>Depois disso voce ja pode criar eventos, equipes e convocados.</p>
+        <p>Depois disso voce ja pode criar eventos, equipes e pessoas escaladas.</p>
         {error ? <div className="alert alert-danger">{error}</div> : null}
         <Field label="Nome da organizacao" value={name} onChange={(e) => setName(e.target.value)} required autoFocus />
         <Textarea label="Descricao" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />

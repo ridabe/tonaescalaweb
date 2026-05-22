@@ -118,7 +118,7 @@ Icones principais:
 - Eventos: `CalendarPlus`.
 - Ferramentas: `Wrench`.
 - Repertorio: `Music`.
-- Voluntarios: `BookUser`.
+- Escalados: `BookUser`.
 - Dashboard: `BarChart3`.
 - Notificacoes: `Bell`.
 - Perfil: `UserRound`.

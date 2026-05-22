@@ -2,11 +2,11 @@
 
 ## 1. Visao
 
-O ToNaEscala Web e a versao acessivel por navegador do ToNaEscala. Ela permite que organizadores gerenciem eventos, escalas, repertorio e voluntarios pelo computador ou celular, e que convidados respondam convocacoes sem instalar o app Android.
+O ToNaEscala Web e a versao acessivel por navegador do ToNaEscala. Ela permite que organizadores gerenciem eventos, escalas, repertorio e escalados pelo computador ou celular, e que convidados respondam escalas sem instalar o app Android.
 
 ## 2. Problema
 
-Nem todos os usuarios convidados querem baixar um aplicativo. Alguns acessam apenas por link recebido no WhatsApp, email ou QR Code. Organizadores tambem podem preferir montar escalas em tela maior, especialmente quando trabalham com muitos voluntarios, repertorios e eventos.
+Nem todos os usuarios convidados querem baixar um aplicativo. Alguns acessam apenas por link recebido no WhatsApp, email ou QR Code. Organizadores tambem podem preferir montar escalas em tela maior, especialmente quando trabalham com muitos escalados, repertorios e eventos.
 
 ## 3. Objetivos
 
@@ -20,11 +20,11 @@ Nem todos os usuarios convidados querem baixar um aplicativo. Alguns acessam ape
 
 ### Organizadores
 
-Lideres, coordenadores e administradores de escalas que criam eventos, convocam voluntarios, acompanham respostas e gerenciam repertorio.
+Lideres, coordenadores e administradores de escalas que criam eventos, adicionam escalados, acompanham respostas e gerenciam repertorio.
 
 ### Convidados
 
-Voluntarios ou participantes que recebem um convite e precisam ver detalhes da convocacao, aceitar ou recusar com justificativa.
+Escalados ou participantes que recebem um convite e precisam ver detalhes da escala, aceitar ou recusar com justificativa.
 
 ## 5. Escopo MVP Web
 
@@ -35,14 +35,14 @@ Voluntarios ou participantes que recebem um convite e precisam ver detalhes da c
 - Criacao de organizacao quando nao houver nenhuma.
 - Listagem e criacao de eventos.
 - Detalhe do evento com resumo de status.
-- Criacao de equipes e convocados.
+- Criacao de equipes e escalados.
 - Compartilhamento de codigo, link e QR Code.
 - Entrada do convidado por codigo + email.
 - Resposta de aceite ou recusa com justificativa.
 - Area de ferramentas:
   - dashboard mensal;
   - repertorio;
-  - voluntarios/contatos.
+  - escalados/contatos.
 - Busca automatica de musicas no modulo repertorio.
 
 ### Fora do escopo inicial
@@ -52,15 +52,15 @@ Voluntarios ou participantes que recebem um convite e precisam ver detalhes da c
 - Funcionalidade offline.
 - Administracao avancada de planos e pagamentos.
 - Edicao completa de todos os campos ja cadastrados.
-- Importacao em massa de voluntarios.
+- Importacao em massa de escalados.
 
 ## 6. Indicadores de sucesso
 
-- Convidado responde convocacao sem instalar app.
+- Convidado responde escala sem instalar app.
 - Organizador acessa web com a mesma conta do app e ve seus eventos.
 - Evento criado na web aparece no app e vice-versa.
-- Convocacao criada na web pode ser respondida pelo convidado.
-- Repertorio e voluntarios cadastrados na web ficam disponiveis para uso compartilhado.
+- Escala criada na web pode ser respondida pelo convidado.
+- Repertorio e escalados cadastrados na web ficam disponiveis para uso compartilhado.
 
 ## 7. Riscos
 

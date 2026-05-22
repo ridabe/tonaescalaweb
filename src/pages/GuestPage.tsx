@@ -28,7 +28,7 @@ export function GuestPage() {
     }
     const eventItems = await getGuestEvents(inviteCode, email);
     const eventId = targetId || eventItems.find((item) => item.is_current_invite)?.event_id || eventItems[0]?.event_id;
-    if (!eventId) throw new Error('Convocacao nao encontrada.');
+    if (!eventId) throw new Error('Escala nao encontrada.');
     const [assignmentItems, rosterItems] = await Promise.all([
       getGuestAssignments(inviteCode, email, eventId),
       getGuestRoster(inviteCode, email, eventId),
@@ -40,7 +40,7 @@ export function GuestPage() {
   }
 
   useEffect(() => {
-    load().catch((err) => setError(err instanceof Error ? err.message : 'Nao foi possivel carregar sua convocacao.'));
+    load().catch((err) => setError(err instanceof Error ? err.message : 'Nao foi possivel carregar sua escala.'));
   }, []);
 
   async function answer(assignment: GuestAssignment, response: 'accepted' | 'declined', reason?: string) {
@@ -70,7 +70,7 @@ export function GuestPage() {
     return <div className="center-screen"><div className="card alert-card"><div className="alert alert-danger">{error}</div><Button onClick={leave}>Voltar</Button></div></div>;
   }
 
-  if (!eventInfo) return <div className="splash">Carregando convocacao...</div>;
+  if (!eventInfo) return <div className="splash">Carregando escala...</div>;
 
   return (
     <div className="guest-shell">
@@ -94,7 +94,7 @@ export function GuestPage() {
                 onClick={() => load(item.event_id)}
               >
                 <strong>{item.event_title}</strong>
-                <span>{item.assignment_count} convocacao{item.assignment_count === 1 ? '' : 'es'}</span>
+                <span>{item.assignment_count} item{item.assignment_count === 1 ? '' : 's'} de escala</span>
               </button>
             ))}
           </div>
@@ -108,7 +108,7 @@ export function GuestPage() {
         </section>
 
         <section>
-          <h2 className="section-title">Suas convocacoes</h2>
+          <h2 className="section-title">Suas escalas</h2>
           <div className="assignment-list">
             {assignments.map((assignment) => (
               <article className="card guest-assignment" key={assignment.assignment_id}>
@@ -146,7 +146,7 @@ export function GuestPage() {
         </section>
 
         <section>
-          <h2 className="section-title">Equipe convocada</h2>
+          <h2 className="section-title">Equipe escalada</h2>
           <div className="assignment-list">
             {roster.map((item) => (
               <div className="assignment-row" key={item.assignment_id}>

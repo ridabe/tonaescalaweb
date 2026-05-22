@@ -1,16 +1,16 @@
-# Fluxo de Convocacoes - Web e App
+# Fluxo de Escalas - Web e App
 
 ## 1. Regra central
 
 A escala e montada pelo organizador antes do convidado responder.
 
-O convidado acessa sua convocacao com:
+O convidado acessa sua escala com:
 
 ```text
-codigo do evento + email convocado
+codigo do evento + email cadastrado na escala
 ```
 
-O codigo localiza o evento. O email identifica a pessoa convocada dentro daquele evento.
+O codigo localiza o evento. O email identifica a pessoa escalada dentro daquele evento.
 
 ## 2. Admin
 
@@ -18,7 +18,7 @@ O codigo localiza o evento. O email identifica a pessoa convocada dentro daquele
 2. Seleciona ou carrega sua organizacao.
 3. Cria evento.
 4. Cria equipes, se necessario.
-5. Adiciona convocados com:
+5. Adiciona escalados com:
    - nome;
    - email;
    - telefone opcional;
@@ -33,9 +33,9 @@ O codigo localiza o evento. O email identifica a pessoa convocada dentro daquele
 
 1. Recebe codigo ou link.
 2. Acessa web ou app.
-3. Informa email convocado.
-4. Sistema valida se existe convocacao daquele email no evento.
-5. Se existir, mostra dados da convocacao.
+3. Informa email cadastrado na escala.
+4. Sistema valida se existe escala daquele email no evento.
+5. Se existir, mostra dados da escala.
 6. Se nao existir, bloqueia acesso aos detalhes.
 7. Convidado aceita ou recusa.
 8. Recusa exige justificativa.
@@ -67,17 +67,17 @@ Pode ver:
 - sua equipe e funcao;
 - horarios;
 - observacoes;
-- lista basica dos demais convocados.
+- lista basica dos demais escalados.
 
 Nao pode ver:
 
 - telefone de outros convidados;
 - email de outros convidados;
-- dados de eventos onde nao esta convocado.
+- dados de eventos onde nao esta escalado.
 
 ## 6. Historico por email
 
-Depois de validar um codigo + email valido, o convidado pode alternar entre eventos ativos em que o mesmo email esta convocado.
+Depois de validar um codigo + email valido, o convidado pode alternar entre eventos ativos em que o mesmo email esta escalado.
 
 ## 7. Notificacoes
 

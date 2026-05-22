@@ -34,9 +34,9 @@ npm run lint
 - Entrada do organizador por email/senha e Google.
 - Criacao da primeira organizacao.
 - Listagem e criacao de eventos.
-- Detalhe do evento com resumo de status dos convocados.
-- Criacao de equipes e convocacoes.
+- Detalhe do evento com resumo de status dos escalados.
+- Criacao de equipes e escalas.
 - Compartilhamento por codigo/link e QR Code.
-- Entrada do convidado por codigo do evento + email convocado.
+- Entrada do convidado por codigo do evento + email cadastrado na escala.
 - Aceite ou recusa com justificativa obrigatoria.
 - Notificacoes administrativas de aceite/recusa.

@@ -91,10 +91,10 @@ export function EventDetailPage({ org }: { org: Organization }) {
         <section className="card">
           <div className="section-head">
             <h2>Escala</h2>
-            <span>{assignments.length} convocados</span>
+            <span>{assignments.length} escalados</span>
           </div>
           <div className="assignment-list">
-            {assignments.length === 0 ? <p className="muted">Nenhum convocado cadastrado.</p> : null}
+            {assignments.length === 0 ? <p className="muted">Nenhum escalado cadastrado.</p> : null}
             {assignments.map((item) => (
               <div className="assignment-row" key={item.assignment_id}>
                 <div>
@@ -169,7 +169,7 @@ function AssignmentForm({
       setNewTeam('');
       await onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Nao foi possivel salvar a convocacao.');
+      setError(err instanceof Error ? err.message : 'Nao foi possivel salvar a escala.');
     } finally {
       setSaving(false);
     }
@@ -180,7 +180,7 @@ function AssignmentForm({
       <div className="card-title">
         <UserPlus size={22} />
         <div>
-          <h2>Adicionar convocado</h2>
+          <h2>Adicionar escalado</h2>
           <span>O convidado entra com codigo do evento + email.</span>
         </div>
       </div>
@@ -199,7 +199,7 @@ function AssignmentForm({
         <Field label="Fim" type="datetime-local" value={end} onChange={(e) => setEnd(e.target.value)} />
       </div>
       <Textarea label="Observacoes" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
-      <Button disabled={saving} icon={<Plus size={18} />}>{saving ? 'Salvando...' : 'Salvar convocacao'}</Button>
+      <Button disabled={saving} icon={<Plus size={18} />}>{saving ? 'Salvando...' : 'Salvar escala'}</Button>
     </form>
   );
 }

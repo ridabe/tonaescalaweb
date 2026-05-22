@@ -43,7 +43,7 @@ export function LoginPage({ session }: { session: Session | null }) {
       const code = inviteCode.trim().toUpperCase();
       const normalizedEmail = guestEmail.trim().toLowerCase();
       const events = await getGuestEvents(code, normalizedEmail);
-      if (events.length === 0) throw new Error('Este email nao esta convocado para este evento.');
+      if (events.length === 0) throw new Error('Este email nao esta na escala deste evento.');
       localStorage.setItem('tne_guest_invite_code', code);
       localStorage.setItem('tne_guest_email', normalizedEmail);
       navigate('/guest');
@@ -75,7 +75,7 @@ export function LoginPage({ session }: { session: Session | null }) {
               <CalendarCheck2 size={22} />
               <div>
                 <h1>Organizador</h1>
-                <span>Crie eventos, equipes e convocacoes.</span>
+                <span>Crie eventos, equipes e escalas.</span>
               </div>
             </div>
             <Field label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -94,7 +94,7 @@ export function LoginPage({ session }: { session: Session | null }) {
               <KeyRound size={22} />
               <div>
                 <h1>Convidado</h1>
-                <span>Acesse pelo codigo e email convocado.</span>
+                <span>Acesse pelo codigo e email cadastrado na escala.</span>
               </div>
             </div>
             <Field
@@ -105,14 +105,14 @@ export function LoginPage({ session }: { session: Session | null }) {
               required
             />
             <Field
-              label="Email convocado"
+              label="Email da escala"
               type="email"
               value={guestEmail}
               onChange={(e) => setGuestEmail(e.target.value)}
               required
               hint="Use o mesmo email informado pelo organizador."
             />
-            <Button disabled={busy} variant="accent">Ver minha convocacao</Button>
+            <Button disabled={busy} variant="accent">Ver minha escala</Button>
           </form>
         </div>
       </section>

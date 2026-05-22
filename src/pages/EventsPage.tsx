@@ -64,7 +64,7 @@ export function EventsPage({ org }: { org: Organization }) {
               </div>
               <div className="event-card-meta">
                 {event.category ? <span className="soft-chip">{event.category}</span> : null}
-                <span>{assignments.length} convocados</span>
+                <span>{assignments.length} escalados</span>
                 <span>{accepted} aceitaram · {declined} recusas</span>
               </div>
             </Link>

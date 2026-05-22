@@ -72,18 +72,18 @@ Tabela: `teams`
 Uso web:
 
 - listar equipes da organizacao;
-- criar equipe durante cadastro de convocado.
+- criar equipe durante cadastro de escalado.
 
 ### Event Assignments
 
 Tabela: `event_assignments`
 
-Unidade principal da escala por convocacao.
+Registro principal da escala planejada pelo organizador.
 
 Uso web:
 
-- criar convocado;
-- listar convocados do evento;
+- criar escalado;
+- listar escalados do evento;
 - calcular status;
 - permitir resposta do convidado.
 
@@ -136,8 +136,8 @@ RPCs:
 
 Uso web:
 
-- listar voluntarios;
-- cadastrar voluntario;
+- listar escalados;
+- cadastrar escalado;
 - sugerir dados para escala em evolucoes futuras.
 
 ## 5. Erros esperados
@@ -147,7 +147,7 @@ Uso web:
 | `UNAUTHENTICATED` | Organizador nao autenticado. |
 | `FORBIDDEN` | Usuario sem acesso a organizacao/evento. |
 | `NOT_FOUND` | Codigo/evento nao encontrado. |
-| `NOT_INVITED` | Email nao convocado para o evento. |
+| `NOT_INVITED` | Email nao encontrado na escala do evento. |
 | `VALIDATION_ERROR` | Payload invalido ou recusa sem justificativa. |
 
 ## 6. Contratos principais
@@ -167,7 +167,7 @@ Uso web:
 }
 ```
 
-### Criar convocacao
+### Criar escala
 
 RPC: `create_event_assignment`
 
@@ -197,7 +197,7 @@ RPC: `get_guest_events_by_invite_email`
 }
 ```
 
-### Responder convocacao
+### Responder escala
 
 RPC: `respond_guest_event_assignment`
 

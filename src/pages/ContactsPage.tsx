@@ -34,10 +34,10 @@ export function ContactsPage({ org }: { org: Organization }) {
       <header className="page-header">
         <div>
           <span className="eyebrow">Ferramentas</span>
-          <h1>Voluntarios</h1>
+          <h1>Escalados</h1>
         </div>
         <Button icon={<Plus size={18} />} onClick={() => setShowForm((value) => !value)}>
-          Adicionar voluntario
+          Adicionar escalado
         </Button>
       </header>
 
@@ -50,7 +50,7 @@ export function ContactsPage({ org }: { org: Organization }) {
 
       <div className="resource-list">
         {filtered.length === 0 ? (
-          <div className="empty-state"><BookUser size={42} /><h2>Agenda vazia</h2><p>Adicione voluntarios para agilizar a montagem das escalas.</p></div>
+          <div className="empty-state"><BookUser size={42} /><h2>Agenda vazia</h2><p>Adicione escalados para agilizar a montagem das escalas.</p></div>
         ) : null}
         {filtered.map((contact) => (
           <article className="resource-row" key={contact.id}>
@@ -91,7 +91,7 @@ function ContactForm({ org, onSaved }: { org: Organization; onSaved: () => void 
       });
       onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Nao foi possivel salvar o voluntario.');
+      setError(err instanceof Error ? err.message : 'Nao foi possivel salvar o escalado.');
     } finally {
       setSaving(false);
     }
@@ -108,7 +108,7 @@ function ContactForm({ org, onSaved }: { org: Organization; onSaved: () => void 
         <Field label="Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
         <Field label="Telefone" value={phone} onChange={(event) => setPhone(event.target.value)} />
       </div>
-      <Button disabled={saving}>{saving ? 'Salvando...' : 'Salvar voluntario'}</Button>
+      <Button disabled={saving}>{saving ? 'Salvando...' : 'Salvar escalado'}</Button>
     </form>
   );
 }

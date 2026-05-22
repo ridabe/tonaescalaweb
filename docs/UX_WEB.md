@@ -22,15 +22,15 @@
 
 1. Recebe link ou codigo.
 2. Acessa a web.
-3. Informa codigo do evento e email convocado.
+3. Informa codigo do evento e email cadastrado na escala.
 4. Sistema valida por RPC.
-5. Se encontrar convocacao, abre area do convidado.
+5. Se encontrar escala, abre area do convidado.
 6. Se nao encontrar, mostra erro claro.
 
 Mensagem recomendada:
 
 ```text
-Este email nao esta convocado para este evento.
+Este email nao esta na escala deste evento.
 Confira o email ou fale com o organizador.
 ```
 
@@ -55,7 +55,7 @@ Cada card deve mostrar:
 - titulo;
 - data e horario;
 - local, quando houver;
-- total de convocados;
+- total de escalados;
 - aceites e recusas.
 
 ### Criacao
@@ -79,8 +79,8 @@ Deve mostrar:
 - titulo, data, horario e local;
 - botao de compartilhar convite;
 - resumo de aceitos, recusas, vistos e nao vistos;
-- lista de convocados;
-- formulario para adicionar convocado.
+- lista de escalados;
+- formulario para adicionar escalado.
 
 ## 6. Convite
 
@@ -99,12 +99,12 @@ Deve mostrar:
 - organizacao;
 - data e horario;
 - local;
-- convocacoes daquele email;
+- escalas daquele email;
 - equipe;
 - funcao;
 - horario de chegada;
 - observacoes;
-- equipe convocada visivel.
+- equipe escalada visivel.
 
 Acoes:
 
@@ -127,13 +127,13 @@ Fluxo:
 6. Sistema preenche titulo, artista, letra quando disponivel e link do Cifras Club.
 7. Usuario revisa e salva.
 
-### Voluntarios
+### Escalados
 
 Fluxo:
 
-1. Abrir Ferramentas > Voluntarios.
+1. Abrir Ferramentas > Escalados.
 2. Buscar por nome, email, telefone ou funcao.
-3. Adicionar voluntario.
+3. Adicionar escalado.
 4. Salvar nome, funcao padrao, email e telefone.
 
 ### Dashboard
@@ -142,7 +142,7 @@ Mostra:
 
 - taxa de resposta;
 - eventos do mes;
-- convocados;
+- escalados;
 - aceites;
 - pendentes;
 - detalhes por evento.
@@ -151,7 +151,7 @@ Mostra:
 
 - Sem eventos: sugerir criar evento.
 - Sem repertorio: sugerir adicionar musica.
-- Sem voluntarios: sugerir adicionar voluntario.
+- Sem escalados: sugerir adicionar escalado.
 - Sem dados no dashboard: explicar que os indicadores aparecem depois de criar eventos e escalas.
 
 ## 10. Erros
@@ -159,6 +159,6 @@ Mostra:
 Mensagens devem ser objetivas:
 
 - `Nao foi possivel carregar os eventos.`
-- `Nao foi possivel salvar a convocacao.`
+- `Nao foi possivel salvar a escala.`
 - `Musica importada, mas a letra nao foi encontrada automaticamente.`
 - `Defina VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY no .env.local.`

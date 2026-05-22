@@ -22,7 +22,7 @@ export function AgendaPage({ org }: { org: Organization }) {
       <header className="page-header">
         <div>
           <span className="eyebrow">Agenda</span>
-          <h1>Convocacoes da organizacao</h1>
+          <h1>Escalas da organizacao</h1>
         </div>
       </header>
 
@@ -30,7 +30,7 @@ export function AgendaPage({ org }: { org: Organization }) {
         <div className="empty-state">
           <CalendarDays size={42} />
           <h2>Agenda vazia</h2>
-          <p>Quando houver convocados, eles aparecem aqui em ordem de data.</p>
+          <p>Quando houver pessoas escaladas, elas aparecem aqui em ordem de data.</p>
         </div>
       ) : (
         <div className="event-list">

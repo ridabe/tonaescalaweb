@@ -18,7 +18,7 @@ Definir as regras de seguranca para a versao web usando a mesma base Supabase do
 | Ator | Auth | Role Supabase | Acesso |
 |---|---|---|---|
 | Organizador | Supabase Auth | `authenticated` | Organizacoes em que e membro ativo. |
-| Convidado | Codigo + email | `anon` ou `authenticated` | Apenas convocacoes vinculadas ao email validado. |
+| Convidado | Codigo + email | `anon` ou `authenticated` | Apenas escalas vinculadas ao email validado. |
 | Sistema | Backend/Edge Function | `service_role` | Operacoes internas, nunca no frontend. |
 
 ## 4. Organizacoes
@@ -52,7 +52,7 @@ Regras:
 - Convites devem ser gerados por RPC.
 - Leitura publica direta de `events` deve ser limitada; preferir RPCs que retornam apenas o necessario.
 
-## 6. Convocacoes
+## 6. Escalas
 
 Tabela:
 
@@ -60,13 +60,13 @@ Tabela:
 
 Organizador:
 
-- pode criar/listar convocacoes de eventos da organizacao que administra.
+- pode criar/listar escalas de eventos da organizacao que administra.
 
 Convidado:
 
 - nao faz SELECT amplo direto;
 - acessa por RPC validando `invite_code + email`;
-- pode responder apenas suas proprias convocacoes.
+- pode responder apenas suas proprias escalas.
 
 RPCs sensiveis:
 
@@ -87,7 +87,7 @@ Regras:
 - musicas da organizacao devem respeitar acesso por organizacao;
 - escrita deve ser restrita a usuarios autenticados com permissao na organizacao.
 
-## 8. Voluntarios
+## 8. Escalados
 
 Tabela:
 
@@ -123,7 +123,7 @@ Regras:
 - [ ] `service_role` ausente do bundle e do Vercel frontend.
 - [ ] RLS ativa nas tabelas publicas.
 - [ ] Convidado validado por `invite_code + email`.
-- [ ] Email nao convocado retorna erro sem revelar escala.
+- [ ] Email fora da escala retorna erro sem revelar detalhes.
 - [ ] Usuario da organizacao A nao le dados da organizacao B.
 - [ ] Repertorio e contatos respeitam `organization_id`/`org_id`.
 - [ ] RPCs `security definer` possuem validacao interna de acesso.

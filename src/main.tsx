@@ -97,7 +97,7 @@ function App() {
           <Route path="eventos/:id" element={<EventDetailPage org={org} />} />
           <Route path="ferramentas" element={<ToolsPage />} />
           <Route path="ferramentas/repertorio" element={<SongsPage org={org} />} />
-          <Route path="ferramentas/voluntarios" element={<ContactsPage org={org} />} />
+          <Route path="ferramentas/escalados" element={<ContactsPage org={org} />} />
           <Route path="ferramentas/dashboard" element={<DashboardPage org={org} />} />
           <Route path="notificacoes" element={<NotificationsPage />} />
           <Route path="perfil" element={<ProfilePage org={org} />} />

@@ -34,13 +34,13 @@ export function DashboardPage({ org }: { org: Organization }) {
             <div>
               <span>Taxa de resposta</span>
               <strong>{data.responseRate}%</strong>
-              <p>{data.accepted + data.declined} respostas de {data.totalScaled} convocacoes.</p>
+              <p>{data.accepted + data.declined} respostas de {data.totalScaled} itens de escala.</p>
             </div>
           </section>
 
           <div className="summary-grid">
             <Metric icon={<CalendarPlus size={20} />} label="Eventos no mes" value={data.eventsCreated} tone="info" />
-            <Metric icon={<UsersRound size={20} />} label="Convocados" value={data.totalScaled} tone="info" />
+            <Metric icon={<UsersRound size={20} />} label="Escalados" value={data.totalScaled} tone="info" />
             <Metric icon={<CheckCircle2 size={20} />} label="Aceites" value={data.accepted} tone="success" />
             <Metric icon={<Clock3 size={20} />} label="Pendentes" value={data.pending} tone="warning" />
           </div>
@@ -55,7 +55,7 @@ export function DashboardPage({ org }: { org: Organization }) {
                 <article className="insight-row" key={item.event.id}>
                   <div>
                     <strong>{item.event.title}</strong>
-                    <span>{dateShort(item.event.start_date)} · {item.total} convocados · {item.responseRate}% resposta</span>
+                    <span>{dateShort(item.event.start_date)} · {item.total} escalados · {item.responseRate}% resposta</span>
                   </div>
                   <div className="insight-pills">
                     <span className="badge badge-accepted"><CheckCircle2 size={12} />{item.accepted}</span>
